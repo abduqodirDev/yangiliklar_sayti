@@ -1,0 +1,15 @@
+{% extends 'news/base.html' %}
+{% block title %}{{news_detail.title}}{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="row">          
+            <div class="col-sm-8">
+                <h2 style="margin-bottom: 40px; margin-top: 40px;">{{news_detail.title}}</h2>
+                <img src="{{news_detail.image.url}}" alt="{{news_detail.title}}" style="width:120%">    
+                <h4>{{news_detail.body}}</h4>   
+                <p>{{news_detail.publish_time}}</p>
+            </div>               
+        </div>
+    </div>
+    
+{% endblock content %}
