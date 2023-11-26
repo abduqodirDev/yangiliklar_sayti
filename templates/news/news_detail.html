@@ -1,15 +1,62 @@
 {% extends 'news/base.html' %}
+{% load hitcount_tags %}
 {% block title %}{{news_detail.title}}{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="row">          
             <div class="col-sm-8">
-                <h2 style="margin-bottom: 40px; margin-top: 40px;">{{news_detail.title}}</h2>
+                <h2 style="margin-bottom: 20px; margin-top: 20px;">{{news_detail.title}}</h2>
+                <p>{{news_detail.publish_time}}  |  <i class="fa fa-eye" aria-hidden="true"></i>
+ {% get_hit_count for news_detail %} | Izohlar soni: {{comment_count}}</p>
                 <img src="{{news_detail.image.url}}" alt="{{news_detail.title}}" style="width:120%">    
                 <h4>{{news_detail.body}}</h4>   
-                <p>{{news_detail.publish_time}}</p>
+                
             </div>               
         </div>
     </div>
+    
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div class="card-footer text-center">
+        <a href="{% url 'news_edit' news_detail.slug %}">Tahrirlash</a> |
+        <a href="{% url 'news_delete' news_detail.slug %}">O'chirish</a>
+        
+    </div>
+    {% endif %} 
+    <br>
+{% if comments %}   
+    <h3>Bu yangilikka {{comment_count}} ta izoh qoldirilgan</h3>
+{% endif %}
+    {% for comment in comments %}
+        <div class="comments" style="padding: 10px">
+            <p class="font-weight-bold">
+                {{comment.user}}
+                <span class="text-muted font-weight-normal">
+                    {{comment.created_time}}
+                    
+                </span>       
+            </p>
+            {{comment.body | linebreaks}}   
+        </div>
+    {% endfor %}
+    
+    {% if user.is_authenticated %}
+    <div class="col-md-8 card mb-4 mt-3">
+        <div class="card-body">
+            <h3>Izoh qoldirish</h3>
+            <form method="POST" style="margin-top: 1.3em">{% csrf_token %}
+                {{comment_form.as_p}}
+                <button type="submit" class="btn btn-primary btn-lg">Jo'natish</button>
+            </form> 
+        </div>
+    </div>
+    {% else %}
+    <div class="card-body">
+        <p class="text-danger">Faqatgina ro'yxatdan o'tgan foydalanuvchilar izoh qoldirishi mumkin</p>
+        <p>Izoh qoldirish uchun <a href="{% url 'signup' %}">ro'yxatdan o'ting</a> yoki <a href="{% url 'login' %}">Saytga kiring</a></p>
+    </div>
+    
+    {% endif %}
+    
+
     
 {% endblock content %}

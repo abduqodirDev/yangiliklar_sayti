@@ -1,8 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from .models import News, Category
-from .forms import ContactForm
+from .forms import ContactForm, CommentForm
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
+from django.views.generic.edit import  UpdateView, DeleteView, CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from config.custom_permissions import OnlyLoggedSuperUser
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Q
+from hitcount.utils import get_hitcount_model
+from hitcount.views import HitCountMixin
+from hitcount.models import HitCount
+from hitcount.views import HitCountMixin
 
 # Create your views here.
 
@@ -17,8 +28,37 @@ def News_List(request):
 
 def News_Detail(request, news):
     news_detail=get_object_or_404(News, slug=news, status=News.Status.Published)
+    context={}
+    #hint_count log
+    hit_count=get_hitcount_model().objects.get_for_object(news_detail)
+    hits=hit_count.hits
+    hitcontext=context['hitcount']={'pk':hit_count.pk}
+    hit_count_response=HitCountMixin.hit_count(request, hit_count)
+    if hit_count_response.hit_counted:
+        hits = hits + 1
+        hitcontext['hit_counted']=hit_count_response.hit_counted
+        hitcontext['hit_message']=hit_count_response.hit_message
+        hitcontext['total_hits']=hits
+    
+    comments=news_detail.comments.filter(active=True)
+    comment_count=comments.count()
+    new_comment=None
+    
+    if request.method=='POST':
+        comment_form=CommentForm(data = request.POST)
+        if comment_form.is_valid():
+            new_comment=comment_form.save(commit=False)
+            new_comment.news=news_detail
+            new_comment.user=request.user
+            new_comment.save()
+      #      comment_form=CommentForm()
+    else:
+        comment_form=CommentForm()            
     context={
-        "news_detail":news_detail
+        "news_detail":news_detail,
+        'comment_form':CommentForm,
+        'comment_count':comment_count,
+        'comments':comments
         }
     return render(request, "news/news_detail.html", context)
 
@@ -104,6 +144,53 @@ class SportPageView(ListView):
     def get_queryset(self):
         news=News.published.filter(category__name="Sport")
         return news
+    
+    
+    
+class NewsUpdateView(OnlyLoggedSuperUser, UpdateView):
+    model=News
+    fields=('title', 'body', 'image', 'category', 'status')
+    template_name="crud/news_edit.html"
+    
+    
+class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
+    model=News
+    template_name="crud/news_delete.html"
+    success_url=reverse_lazy("index")
+    
+    
+class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model=News
+    fields=("title", "slug", "body", "image", "category", "status")
+    prepopulated_fields={"slug":("title", )}
+    template_name="crud/news_create.html"
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+#   login_url="login"
+
+
+@login_required
+@user_passes_test(lambda u:u.is_superuser)
+def admin_page_view(request):
+    admin_user=User.objects.filter(is_superuser=True)
+    context={
+        "admin_user":admin_user
+        }
+    
+    return render(request, "pages/admin_page.html", context)
+
+
+class SearchView(ListView):
+    model=News
+    template_name="news/search_news.html"
+    context_object_name="barcha_yangiliklar"
+    
+    def get_queryset(self):
+        query=self.request.GET.get('q')
+        return News.objects.filter(
+            Q(title__icontains=query) | Q(body__icontains=query)
+            )
     
     
     

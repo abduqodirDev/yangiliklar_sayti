@@ -1,5 +1,6 @@
 {% extends 'news/base.html' %}
 {% load static %}
+{% load hitcount_tags %}
 {% block title %}Bosh sahifa{% endblock title %}
 {% block content %}
 
@@ -26,7 +27,11 @@
             {% for news in news_list %}
               <li>
                 <div class="media"> <a href="{{news.get_absolute_url}}" class="media-left"> <img alt="" src="{{news.image.url}}"> </a>
-                  <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> </div>
+                  <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> 
+                 <p>
+                  Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                  </p>
+                  </div>
                 </div>
               </li>
              {% endfor %}
@@ -64,7 +69,11 @@
                   {% if forloop.counter > 1 %}
                 <li>
                   <div class="media wow fadeInDown"> <a href="{{news.get_absolute_url}}" class="media-left"> <img alt="" src="{{news.image.url}}"> </a>
-                    <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> </div>
+                    <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> 
+                    <p>
+                     Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                     </p>
+                    </div>
                   </div>
                 </li>
                   {% endif %}
@@ -93,7 +102,11 @@
                     {% if forloop.counter > 1 %}
                   <li>
                     <div class="media wow fadeInDown"> <a href="{{news.get_absolute_url}}" class="media-left"> <img alt="" src="{{news.image.url}}"> </a>
-                      <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> </div>
+                      <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> 
+                      <p>
+                       Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                       </p>
+                      </div>
                     </div>
                   </li>
                     {% endif %}
@@ -121,7 +134,11 @@
                     {% if forloop.counter > 1 %}
                   <li>
                     <div class="media wow fadeInDown"> <a href="{{news.get_absolute_url}}" class="media-left"> <img alt="" src="{{news.image.url}}"> </a>
-                      <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title"> {{news.title}}</a> </div>
+                      <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title"> {{news.title}}</a> 
+                      <p>
+                       Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                       </p>
+                      </div>
                     </div>
                   </li>
                     {% endif %}
@@ -187,7 +204,11 @@
                   {% if forloop.counter > 1 %}
                 <li>
                   <div class="media wow fadeInDown"> <a href="{{news.get_absolute_url}}" class="media-left"> <img alt="" src="{{news.image.url}}"> </a>
-                    <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> </div>
+                    <div class="media-body"> <a href="{{news.get_absolute_url}}" class="catg_title">{{news.title}}</a> 
+                    <p>
+                     Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                     </p>
+                    </div>
                   </div>
                 </li>
                 {% endif %}
