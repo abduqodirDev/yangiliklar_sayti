@@ -2,10 +2,12 @@
 {% block title %}{{news.title}}{% endblock title %}
 {% block content %}
 
-    <h2 class="text-center">Joriy yangilikni o'chirish</h2>
+    <h2 class="text-center" style="margin-bottom: 30px;">Joriy yangilikni o'chirish</h2>
     <form method="post">{% csrf_token %}
-        <p>{{news.title | truncatewords:4}}... sarlavhali yangilikni o'chirmoqchimisiz?</p>
-        <buttom type="submit" class="btn btn-danger ml-2">Tasdiqlayman</buttom>
+        <h4 style="font-family: Tahoma, sans-serif;">{{news.title}}</h4>
+        <img src="{{news.image.url}}" alt="{{news.title}}" style="width:60%; margin-bottom: 20px;">    
+        <br>
+        <buttom type="submit" class="btn btn-danger ml-2" style="margin-bottom: 20px; text-align: center;">Tasdiqlayman</buttom>
     </form>
 
 {% endblock content %}

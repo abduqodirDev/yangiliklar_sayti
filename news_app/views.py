@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import News, Category
+from .models import News, Category, Comment
 from .forms import ContactForm, CommentForm
 from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
@@ -73,9 +73,11 @@ class ContactPageView(TemplateView):
     template_name="news/contact.html"
     
     def get(self, request, *args, **kwargs):
-        form=ContactForm()
+        form=ContactForm(),
+        mashxur_xabarlar=News.published.all()[:5]
         contaxt={
-            "form":form
+            "form":form,
+            "mashxur_xabarlar":mashxur_xabarlar
             }
         return render(request, "news/contact.html", contaxt)
     
@@ -97,8 +99,10 @@ class HomePageView(ListView):
     context_object_name="news"
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
+        context["comments"]=Comment.objects.all()[:4]
         context["category"]=Category.objects.all()
         context["news_list"]=News.published.all().order_by('-publish_time')[:5]
+        context["ommabop"]=News.published.all().order_by('-publish_time')[5:10]
         context["mahalliy_news"]=News.published.filter(category__name="Mahalliy").order_by('-publish_time')[:5]
         context["texnologiya_news"]=News.published.filter(category__name="Texnologiya").order_by('-publish_time')[:5]
         context["xorij_news"]=News.published.filter(category__name="Xorij").order_by('-publish_time')[:5]
@@ -161,7 +165,7 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
     
 class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model=News
-    fields=("title", "slug", "body", "image", "category", "status")
+    fields=("title", "title_uz", "title_ru", "title_en", "slug", "body","body_uz", "body_ru", "body_en", "image", "category", "status")
     prepopulated_fields={"slug":("title", )}
     template_name="crud/news_create.html"
     
@@ -173,9 +177,13 @@ class NewsCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 @login_required
 @user_passes_test(lambda u:u.is_superuser)
 def admin_page_view(request):
-    admin_user=User.objects.filter(is_superuser=True)
+    admin_user=User.objects.filter()
+    news=News.objects.all()
+    comment=Comment.objects.all()
     context={
-        "admin_user":admin_user
+        "admin_user":admin_user,
+        "news":news,
+        "comment":comment
         }
     
     return render(request, "pages/admin_page.html", context)
@@ -192,7 +200,9 @@ class SearchView(ListView):
             Q(title__icontains=query) | Q(body__icontains=query)
             )
     
-    
+
+class AboutView(TemplateView):
+    template_name="news/about.html"
     
     
     

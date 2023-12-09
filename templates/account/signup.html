@@ -1,11 +1,12 @@
 {% extends 'news/base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Sign Up{% endblock title %}
 {% block content %}
-
-    <h1>Ro'yxatdan o'tish</h1>
-    <form method="post">{% csrf_token %}
-        {{user_form.as_p}}
-        <button type="submit">SignUP</button>
+<div style="font-family: Tahoma, sans-serif; ">
+    <h1 style="font-family: Tahoma, sans-serif; color: red; text-align: center;">Ro'yxatdan o'tish</h1>
+    <form method="post" style="style="font-family: Tahoma, sans-serif;"">{% csrf_token %}
+        {{user_form|crispy}}
+        <button type="submit" class="btn btn-success">Yuborish</button>
     </form>
-
+</div>
 {% endblock content %}

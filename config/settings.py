@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d2-o)qh#9iqd(fnjv&n4e)t%66i3g8so%f+i7c-(&t1)41^_ym'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -37,14 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'news_app',
     'accounts',
-    'hitcount'
+    'hitcount',
+    'modeltranslation',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -107,13 +114,34 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uz-uz'
 
 TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
 USE_TZ = True
+
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGES=[
+    ('uz', _('Uzbek')),
+    ('en', _('English')),
+    ('ru', _('Russion'))
+    ]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE='uz'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+    },
+}
+
+CKEDITOR_UPLOAD_PATH="uploads/"
+CKEDITOR_RESTRICT_BY_USER=True
+
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -122,10 +150,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[BASE_DIR / "static"]
 STATIC_ROOT=BASE_DIR / "staticfiles"
+STATICFILES_STORAGE ='django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     ]
+
 
 MEDIA_URL='media/'
 MEDIA_ROOT=BASE_DIR / 'media'
@@ -142,5 +172,7 @@ LOGIN_REDIRECT_URL="index"
 LOGIN_URL="login"
 
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+CRISPY_TEMPLATE_PACK='bootstrap4'
 
 

@@ -1,13 +1,23 @@
 {% extends 'news/base.html' %}
+{% load hitcount_tags %}
 {% block title %}Qidiruv natijalari{% endblock title %}
 {% block content %}
-    <h2>Qidiruv natijalari</h2>
-    {% for yangilik in barcha_yangiliklar %}
-        <h3>
-            <a href="{% url 'news_detail' yangilik.slug %}" class="text-danger">{{yangilik.title}}</a>
-        </h3>
-            <p><img src="{{yangilik.image.url}}" width="30%"></p>
-            <p>{{yangilik.body | truncatewords:30}}</p>
-        
+
+    <h1 style="margin-left: 100px; margin-top: 30px; margin-bottom; 30px; ">Qidiruv natijalari</h1>
+    {% for news in barcha_yangiliklar %}
+        <div class="container">
+            <div class="row" style="text-align: center; font-family: Tahoma, sans-serif;">          
+                <div class="col-sm-8">
+                <a href="{% url 'news_detail' news.slug %}">
+                    <img src="{{news.image.url}}" alt="{{news.title}}" style="width:100%">
+                    <h2 style="font-family: Tahoma, sans-serif;">{{news.title}}</h2>
+                    
+                </a>   
+                <p style="font-size: 14px; margin-bottom: 30px;">
+                 Ko'rilganlar soni: <i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}
+                 </p>    
+                </div>               
+            </div>
+        </div>
     {% endfor %}
 {% endblock content %}%

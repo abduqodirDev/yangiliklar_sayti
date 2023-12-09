@@ -1,0 +1,32 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% block title %}biz haqimizda{% endblock title %}
+{% block content %}
+<div style="text-align: center;">
+    <h2 style="margin-top: 20px; margin-bottom: 20px; font-family: Tahoma, sans-serif;">Men bu yerda o'zim haqimda malumot berib o'tmoqchiman </h2>
+    <img src="{% static 'images/mine.jpg' %}">
+</div>
+<div style="font-family: Tahoma, sans-serif;">
+    <h3 style="font-family: Tahoma, sans-serif;">     Hammaga salom meni ismim Abduqodir va men qashqadaryo viloyati Qamashi tumanida turaman 
+    Va men hozirda TATU Qarshi filialida Axborot Xavfsizligi yunalishida 3 kurs talabasiman 
+    men o'sha mashxur IT sohasiga qiziqaman va 2 yildan buyon IT sohasini o'rganib kelaman 
+    </h3>
+    <hr style="background-color: grey; padding-top: 3px; padding-bottom: 3px;  ">
+    <p style="font-size: 20px;">Men shu 2 yildan beri nimalarni o'rganib keldim shu haqda jami 4 semistrga bo'lib yozmoqchiman )</p>
+    <ol style="font-size: 18px;">
+        <li>1-semistr men bu semistrga front end sohasini o'rganganman yani html va css 
+        uncha mukammal o'rganmagan bo'lsamda lekin usha vaqti kichik web saytlarni shablonini qilar edim</li>
+        <li>2-semistr men bu semistrda c++ dasturlash tilini o'rganishni qaror qilganman va hamma bilgan o'sha 
+        Qudrat Abdurahimovni 1000 masalasini ishlab chiqganman, o'sha vaqti algoritm va masala ishlash bo'yicha
+        menga teng keladigani bo'lmas edi</li>
+        <li>3-semistr bu semistrda kiber xavfsizlikni o'rganishni qaror qilganman va Pentest 101 kursining ilk o'quvchisi bo'lganman
+        usha vaqti birinchi qirg'iz web saytiga hujum qilib serverini o'chirib qo'yganman va O'zbekistonning ham kichik saytlaridan 
+        zaifliklar aniqlaganman</li>
+        <li>4-semistr esa focusni ingliz tiliga qaratganman </li>
+        <li>va hozirgi 5 semistr esa django backend o'rganyapman va bu yangiliklar sayti esa mening birinchi web saytim bo'ldi va 
+        python django back end junior dasturchi bo'lmoqchiman keyinchalikga esa kiber xavfsizlikni yana boshlamoqchiman 
+        va o'zim uchun asosiy dasturlash tilimni python qilib olib bu tilni mukammal o'rganmoqchiman va keyinchalikga Rust dasturlash 
+        tilini o'rganish niyat ham bor </li>
+    </ol>
+</div>
+{% endblock content %}

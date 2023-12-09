@@ -1,28 +1,48 @@
 {% extends 'news/base.html' %}
 {% block title %}Admin sahifa{% endblock title %}
 {% block content %}
-
-<h1>Admin sahifasi</h1>
-<h3>barcha adminlar</h3>
-<table class="table table-bordered table-responsive table-striped">
-<tr>
-    <th>Username</th>
-    <th>ismi</th>
-    <th>Familyasi</th>
-</tr>
-{% for user in admin_user %}
-<tr>
-    <td>{{user.username}}</td>
-    <td>{{user.first_name}}</td>
-    <td>{{user.last_name}}</td>
-</tr>
-{% endfor %}
-
-</table>
-<h2>
-    <a href="{% url 'news_create' %}" class="text-primary">
-        +Yangilik qo'shish
-    </a>
-</h2>
-
+<div style="font-family: Tahoma, sans-serif;">
+    <h1 style="text-align: center; margin-top: 20px; margin-bottom: 20px;">Admin sahifasi</h1>
+    <h3>barcha adminlar</h3>
+    <table class="table table-bordered table-responsive table-striped">
+    <tr>
+        <th>Username</th>
+        <th>ismi</th>
+        <th>Familyasi</th>
+    </tr>
+    {% for user in admin_user %}
+    <tr>
+        <td>{{user.username}}</td>
+        <td>{{user.first_name}}</td>
+        <td>{{user.last_name}}</td>
+    </tr>
+    {% endfor %}
+    
+    </table>
+    <h3>barcha yangiliklar</h3>
+    <ol style="font-size: 16px;">
+    {% for new in news %}
+        <li style="margin-top: 10px;">
+            <a href="{{new.get_absolute_url}}">{{new.title}}</a>
+            <a style="color: blue;" href="{% url 'news_edit' new.slug %}">Tahrirlash</a> |
+            <a style="color: blue;" href="{% url 'news_delete' new.slug %}">O'chirish</a>
+            <br>
+        </li>
+    {% endfor %}
+    </ol>
+    <h2 style="text-align: center;">
+        <a href="{% url 'news_create' %}" class="text-primary" >
+            +Yangilik qo'shish
+        </a>
+    </h2>
+     <h3>barcha komentariyalar</h3>
+     <ol style="font-size: 16px;">
+     {% for new in comment %}
+         <li >
+             <p style="margin: 0px;">{{new.body}}</p>
+             <br>
+         </li>
+     {% endfor %}
+     </ol>
+</div>
 {% endblock content %}

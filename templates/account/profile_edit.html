@@ -1,13 +1,14 @@
 {% extends 'news/base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Foydalanuvchi malumotlarini o'zgartirish{% endblock title %}
 {% block content %}
 
-    <h1>Foydalanuvchi malumotlarini o'zgartirish</h1>
-    <p>Siz o'zingiz haqidagi malumotlarni quyidagi forma orqali to'ldirishingiz mumkin</p>
+    <h1 style="font-family: Tahoma, sans-serif; text-align: center; color: red; margin-top: 20px; margin-bottom: 20px;">Foydalanuvchi malumotlarini o'zgartirish</h1>
+    <p style="font-family: Tahoma, sans-serif; font-size: 18px;">Siz o'zingiz haqizdagi malumotlaringizni o'zgartirishingiz mumkin</p>
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{user_form.as_p}}
-        {{profile_form.as_p}}
-        <button type="submit">O'zgarishlarni saqlash</button>
+        {{user_form|crispy}}
+        {{profile_form|crispy}}
+        <button class="btn btn-primary" type="submit">O'zgarishlarni saqlash</button>
     </form>
 
 {% endblock content %}

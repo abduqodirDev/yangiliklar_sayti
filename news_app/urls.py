@@ -12,7 +12,8 @@ from .views import (News_List,
                    NewsDeleteView,
                    NewsCreateView,
                    admin_page_view,
-                   SearchView
+                   SearchView,
+                   AboutView
                    )
 urlpatterns=[
     path('', HomePageView.as_view(), name="index"),
@@ -28,5 +29,6 @@ urlpatterns=[
     path('contact-us/', ContactPageView.as_view(), name='contact'),
     path('error/', ErrorPageView, name='error'),
     path('admin_page/', admin_page_view, name="admin_page"),
-    path('searchresult/', SearchView.as_view(), name="search_results")
+    path('searchresult/', SearchView.as_view(), name="search_results"),
+    path('about/', AboutView.as_view(), name="about")
     ]
