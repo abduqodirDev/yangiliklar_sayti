@@ -148,8 +148,8 @@ CKEDITOR_RESTRICT_BY_USER=True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS=[BASE_DIR / "static"]
-STATIC_ROOT=BASE_DIR / "staticfiles"
+#STATICFILES_DIRS=[BASE_DIR / "static"]
+STATIC_ROOT=BASE_DIR / "static"
 STATICFILES_STORAGE ='django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
